@@ -5,12 +5,18 @@ import PostComponent from "./components/PostComponent";
 import { useSelector } from "react-redux";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './layout.css'
-
+import {BiDotsHorizontalRounded} from 'react-icons/bi'
 import {AiOutlineSearch} from 'react-icons/ai'
 import { Row, Col, Container} from "react-bootstrap";
+import { useState } from "react";
 
 const HomePage = () => {
   const posts = useSelector((state) => state.posts.posts);
+  const [options, setOptions]=useState(false)
+  const handleClick = event=>{
+    setOptions(current =>!current)
+    
+  }
   return (
     <>
       <div className="grid grid-cols-12 w-full f-s-sec">
@@ -40,6 +46,18 @@ const HomePage = () => {
                   <span>
                     Trending in Nigeria
                   </span>
+                  <div>
+                    <BiDotsHorizontalRounded className=""style={{position:'relative', left:'16rem', top:'-20px'}} onClick={handleClick}/>
+                    {
+                      options && (
+                        <ul style={{border:'1px solid grey', position:'absolute', left:'8rem', top:'6rem', width:'100px',borderRadius:'15px'}}>
+                          
+                          {/* <button onClick={handleEditPost}>edit</button>
+                          <button onClick={handleRemovePost}>delete</button> */}
+                        </ul>
+                      )
+                    }
+                 </div> 
                   <h4>Germany</h4>
                   <span>92.8K Tweets</span>
                 </div>
@@ -47,6 +65,18 @@ const HomePage = () => {
                   <span>
                     Trending 
                   </span>
+                  <div>
+                    <BiDotsHorizontalRounded className=""style={{position:'relative', left:'16rem', top:'-20px'}} onClick={handleClick}/>
+                    {
+                      options && (
+                        <ul style={{border:'1px solid grey', position:'absolute', left:'6rem', top:'4rem', width:'100px',borderRadius:'15px'}}>
+                          
+                          {/* <button >edit</button>
+                          <button >delete</button> */}
+                        </ul>
+                      )
+                    }
+                 </div> 
                   <h4>LGBTQIA</h4>
                   <span>12.8K Tweets</span>
                 </div>
@@ -54,6 +84,18 @@ const HomePage = () => {
                   <span>
                     Trending in Nigeria
                   </span>
+                  <div>
+                    <BiDotsHorizontalRounded className=""style={{position:'relative', left:'16rem', top:'-20px'}} onClick={handleClick}/>
+                    {
+                      options && (
+                        <ul style={{border:'1px solid grey', position:'absolute', left:'6rem', top:'6rem', width:'100px',borderRadius:'15px'}}>
+                          
+                          {/* <button onClick={handleEditPost}>edit</button>
+                          <button onClick={handleRemovePost}>delete</button> */}
+                        </ul>
+                      )
+                    }
+                 </div> 
                   <h4>Asake</h4>
                   <span>14.9K Tweets</span>
                 </div>
@@ -61,6 +103,18 @@ const HomePage = () => {
                   <span>
                     Trending in Nigeria
                   </span>
+                  <div>
+                    <BiDotsHorizontalRounded className=""style={{position:'relative', left:'16rem', top:'-20px'}} onClick={handleClick}/>
+                    {
+                      options && (
+                        <ul style={{border:'1px solid grey', position:'absolute', left:'6rem', top:'6rem', width:'100px',borderRadius:'15px'}}>
+                          <li>option</li>
+                          {/* <button onClick={handleEditPost}>edit</button>
+                          <button onClick={handleRemovePost}>delete</button> */}
+                        </ul>
+                      )
+                    }
+                 </div> 
                   <h4>Omah</h4>
                   <span>5003 Tweets</span>
                 </div>

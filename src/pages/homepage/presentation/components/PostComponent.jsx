@@ -17,7 +17,9 @@ const PostComponent = ({ post, index }) => {
   const myId = "this_is--My--123Id";
   const [isOpen, setIsOpen] = useState(false)
   const [reTweet, setReTweet] = useState(false)
+  const [edit, setEdit] = useState(false)
   const [options, setOptions]=useState(false)
+  // const comment = useSelector(state=>state.addComment)
   const handleClick = event=>{
     setOptions(current =>!current)
     
@@ -33,13 +35,15 @@ const PostComponent = ({ post, index }) => {
       })
     );
   };
+  const editRef = useRef();
   const handleEditPost = (newData) => {
     dispatch(
       editPost({
-        newData,
+        content:editRef.current.value,
         postIndex: index,
       })
     );
+    editRef.current.value = "";
   };
   const handleRemovePost = () => {
     dispatch(
@@ -48,6 +52,7 @@ const PostComponent = ({ post, index }) => {
         postIndex: index,
       })
     );
+    
   };
   const commentRef = useRef();
   
@@ -83,7 +88,14 @@ const PostComponent = ({ post, index }) => {
             {
               options && (
                 <ul style={{border:'1px solid grey', position:'absolute', left:'43rem', top:'26rem', width:'100px',borderRadius:'15px'}}>
-                  <button onClick={handleEditPost}>edit</button>
+                  <button onClick={()=>setEdit(true)}>edit</button>
+                  {
+                    edit &&(
+                      <div className="edit-div">
+                        <input type="text" ref={editRef} /> <button onClick={handleEditPost}>edit</button>
+                      </div>
+                    )
+                  }
                   <button onClick={handleRemovePost}>delete</button>
                 </ul>
               )

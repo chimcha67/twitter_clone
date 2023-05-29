@@ -10,7 +10,7 @@ export const postSlice = createSlice({
     reducers: {
         addPost: (state, action) => {
             state.posts.unshift(action.payload)
-        },
+        }, 
         removePost: (state, action) => {
             const postIndex = action.payload;
             const newPost = state.posts;
@@ -18,8 +18,11 @@ export const postSlice = createSlice({
             state.posts = newPost
         },
         editPost: (state, action) => {
-            const { postIndex, newData } = action.payload;
-            state.posts[postIndex] = newData;
+            state.posts.map((post)=>{
+                post.content = action.payload.content
+            })
+            // const { postIndex, newData } = action.payload;
+            // state.posts[postIndex] = newData;
 
         },
         likePost: (state, action) => {
