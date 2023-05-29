@@ -1,0 +1,20 @@
+.comment-input{
+    border: 1px solid grey;
+    position: relative;
+    top: 50px;
+    height: 33px;
+    border-radius: 10px;
+}
+.reply{
+    background: #1d9bf0;
+    position: relative;
+    width: 60px;
+    height: 35px;
+    color: white;
+    border-radius: 30px;
+    top: 50px;
+    left: 10px;
+}
+.comment-div{
+    position: absolute;
+}

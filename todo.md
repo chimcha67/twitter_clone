@@ -1,0 +1,5 @@
+- add option button to post
+- add the comment functionality (laise with twitter)
+- retweet
+- add the right section (twitter)
+- add a modal on clike option button with (delete and edit options)
