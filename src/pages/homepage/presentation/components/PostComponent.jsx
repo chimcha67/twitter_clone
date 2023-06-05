@@ -8,22 +8,32 @@ import {BiDotsHorizontalRounded} from 'react-icons/bi'
 // import CancelPresentationSharpIcon from '@mui/icons-material/CancelPresentationSharp';
 import { Assets } from "../../../../assets";
 import { useDispatch, useSelector } from "react-redux";
-import { likePost,addComment, removePost,editPost } from "../../../../redux/slices/postSlice";
+import { likePost,addComment, removePost,editPost,reTweet } from "../../../../redux/slices/postSlice";
 import './post-component.css'
 import { useState,useRef } from "react";
 
+ 
+// main component function
 
 const PostComponent = ({ post, index }) => {
   const myId = "this_is--My--123Id";
-  const [isOpen, setIsOpen] = useState(false)
-  const [reTweet, setReTweet] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)                 
+  // const [reTweet, setReTweet] = useState(false)
   const [edit, setEdit] = useState(false)
   const [options, setOptions]=useState(false)
-  // const comment = useSelector(state=>state.addComment)
+  const comment = useSelector(state=>state.addComment)
+
+  // functions for handling click
   const handleClick = event=>{
     setOptions(current =>!current)
+  }
+  const handleEditClick = event=>{
+    
+    setEdit(current =>!current)
     
   }
+
+// function for rendering post like 
 
   const dispatch = useDispatch();
 
@@ -35,40 +45,44 @@ const PostComponent = ({ post, index }) => {
       })
     );
   };
-  const editRef = useRef();
+
+// function for rendering edit post
+
+  const editRef = useRef(null);
   const handleEditPost = (newData) => {
     dispatch(
       editPost({
-        content:editRef.current.value,
+        newData: editRef.current.value,
         postIndex: index,
       })
     );
     editRef.current.value = "";
   };
-  const handleRemovePost = () => {
-    dispatch(
-      removePost({
-        
-        postIndex: index,
-      })
-    );
+  // const handleRemovePost = () => {
+  //   dispatch(
+  //     removePost(post)
+  //   );
     
-  };
+  // };
   const commentRef = useRef();
   
-  const commentDispatch = useDispatch();
+  // function for rendering comment
   const addNewComment = (event) => {
     event.preventDefault();
-    commentDispatch(
+    dispatch(
       addComment({
         content: commentRef.current.value,
         likes: [],
         comments: [],
-        retweet: []
+        retweet: [],
+        postIndex:index
       })
     );
     commentRef.current.value = "";
   };
+  // const initialPostText = { body:" "}
+  // const [textValue, setTextValue] = useState(initialPostText)
+  
   return (
     <section>
       <div className="flex gap-3 my-10">
@@ -84,19 +98,35 @@ const PostComponent = ({ post, index }) => {
            
           </div>
           <div>
-          <BiDotsHorizontalRounded className=""style={{position:'relative', left:'25rem'}} onClick={handleClick}/>
+          <BiDotsHorizontalRounded className="dot-menu"style={{position:'relative', left:'6rem'}} onClick={handleClick}/>
             {
               options && (
-                <ul style={{border:'1px solid grey', position:'absolute', left:'43rem', top:'26rem', width:'100px',borderRadius:'15px'}}>
-                  <button onClick={()=>setEdit(true)}>edit</button>
+                <ul className='mini-menu' style={{ marginLeft:'20rem', top:'26rem', width:'100px'}}>
+                  <div className="m-m-btn">
+                    <div className="m-btn-hover">
+                         <button onClick={handleEditClick}>edit</button> <br />
+                    </div>
+                  
+                
                   {
                     edit &&(
                       <div className="edit-div">
-                        <input type="text" ref={editRef} /> <button onClick={handleEditPost}>edit</button>
+                        <div className="sub-edit-div">
+                             <input required type="text" ref={editRef} /> <button className="edit-btn" onClick={handleEditPost} style={{width:'70p'}}>save</button>
+
+                        </div>
                       </div>
                     )
                   }
-                  <button onClick={handleRemovePost}>delete</button>
+                   <div className="m-btn-hover">
+                       <button onClick={()=>{
+                         dispatch(
+                          removePost(post)
+                        );
+                        setOptions(false)
+                       }}>delete</button>
+                    </div>     
+                  </div>
                 </ul>
               )
             }
@@ -106,7 +136,7 @@ const PostComponent = ({ post, index }) => {
 
           <div className="flex items-center mt-4 gap-8 "  >
             <div>
-               <PostActionComp icon={FaRegComment}  onClick={()=>setIsOpen(!options)}
+               <PostActionComp icon={FaRegComment}  onClick={()=>setIsOpen(true)}
               count={post.comments.length}   
               />
              
@@ -117,9 +147,9 @@ const PostComponent = ({ post, index }) => {
                       return (
                       // <PostComponent key={index} index={index} post={post} />;
                     })} */}
-                    <input type="text" ref={commentRef} className="comment-input"/>
+                    <input type="text" ref={commentRef} className="comment-input" required/>
                  
-                  <button onClick={addNewComment} onChange={()=>setIsOpen(false)} className="reply" count={post.comments.length} >
+                  <button onClick={addNewComment}  className="reply" count={post.comments.length} >
                        Reply
                   </button>
                   </div>
@@ -130,16 +160,16 @@ const PostComponent = ({ post, index }) => {
            <div>
            <PostActionComp
               icon={AiOutlineRetweet}
-              onClick={()=>setReTweet(true)}
+              onClick={()=>dispatch(reTweet(post))}
               count={post.retweet.length}
             />
-            {
+            {/* {
               reTweet &&(
                 <div>
                   
                 </div>
               )
-            }
+            } */}
            </div>
             <PostActionComp
               onClick={handlePostLike}

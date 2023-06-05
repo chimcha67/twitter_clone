@@ -8,24 +8,40 @@ import { Assets } from "../../../../assets";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
 import { addPost } from "../../../../redux/slices/postSlice";
+
+
+// main tweet component
+
 const TweetComponent = () => {
   const contentRef = useRef();
  
   
   const dispatch = useDispatch();
-  const addNewPost = (event) => {
-    event.preventDefault();
-    dispatch(
-      addPost({
-        content: contentRef.current.value,
-        likes: [],
-        comments: [],
-        retweet: [],
-        options:[]
-      })
-    );
-    contentRef.current.value = "";
-  };
+  // const addNewPost = (event) => {
+  //   event.preventDefault();
+  //   dispatch(
+  //     addPost({
+  //       content: contentRef.current.value,
+  //       likes: [],
+  //       comments: [],
+  //       retweet: [],
+  //       options:[],
+  //       id:Math.floor(Math.random()*9999999).toString()
+        
+  //     })
+      
+  //   );
+    
+  //   contentRef.current.value = "";
+    
+  // };
+  // const initialPostText = { body:" "}
+  // const [textValue, setTextValue] = useState(initialPostText)
+  // const handleTextChange = (e)=>{
+  //   const {name, value} = contentRef.current.value
+  //   const content = contentRef.value
+  //   setTextValue({...textValue, name:content})
+  // }
   return (
     <section>
       <div className="mt-12 flex">
@@ -36,12 +52,14 @@ const TweetComponent = () => {
        
           <textarea
             ref={contentRef}
+            // value={textValue.body}
+            name="body"
             
-            name=""
             placeholder="Whats happening?!"
             className="p-3 outline-none border-none resize-none w-full"
             id=""
             rows="4"
+            required
           ></textarea>
           <hr />
 
@@ -59,7 +77,28 @@ const TweetComponent = () => {
             <div className="flex items-center gap-5">
               <AiOutlinePlusCircle color="#1e9cf0" size={20} />
               <button
-                onClick={addNewPost}
+                onClick={(e)=>{
+                  e.preventDefault();
+                  if((contentRef.current.value !== '')){
+                    dispatch(
+                      addPost({
+                        content: contentRef.current.value,
+                        likes: [],
+                        comments: [],
+                        retweet: [],
+                        options:[],
+                        id:Math.floor(Math.random()*9999999).toString()
+                        
+                      })
+                      
+                    );
+                    console.log(contentRef)
+                    contentRef.current.value = "";
+                  }
+                  else{
+                    alert('pls enter content')
+                  }
+                }}
                 type="submit"
                 className="bg-[#28a2e5] py-1 text-white px-3 rounded-full"
               >
